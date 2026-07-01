@@ -9,6 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/twitch")
 public class TwitchController {
 
+    // TEST FUNCTIONS
+    public static String getTestMessage() {
+        return "Twitch Controller is working";
+    }
+
+    public static String getTestMessageWithArguments(String arg) {
+        return "Twitch Controller test is working with argument: " + arg;
+    }
+
+    
+
     @GetMapping
     public ResponseEntity<String> twitch() {
         return ResponseEntity.ok("Twitch Controller is working");
