@@ -1,8 +1,8 @@
 package com.binoice.binoice.twitch;
 
-import com.binoice.binoice.twitch.TwitchProperties;
-
 import org.springframework.stereotype.Service;
+
+import com.binoice.binoice.tts.TTSService;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.chat.events.channel.ChannelJoinEvent;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
@@ -14,13 +14,16 @@ public class TwitchService {
     
     private final TwitchClient twitchClient;
     private final TwitchProperties twitchProperties;
+    private final TTSService ttsService;
 
     public TwitchService(
         TwitchClient twitchClient,
-        TwitchProperties twitchProperties
+        TwitchProperties twitchProperties,
+        TTSService ttsService
     ) {
         this.twitchClient = twitchClient;
-        this.twitchProperties = twitchProperties;   
+        this.twitchProperties = twitchProperties;
+        this.ttsService = ttsService;   
     }
 
     @PostConstruct
@@ -49,6 +52,8 @@ public class TwitchService {
         String channel = event.getChannel().getName();
         String user = event.getUser().getName();
         String message = event.getMessage();
+
+        ttsService.sendTTSRequest(message);
 
         System.out.printf("[%s] %s: %s%n", channel, user, message);
     }
